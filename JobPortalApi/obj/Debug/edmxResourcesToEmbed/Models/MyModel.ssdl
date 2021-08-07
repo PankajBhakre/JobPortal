@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="JobPortalDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="City">
+    <Key>
+      <PropertyRef Name="CityId" />
+    </Key>
+    <Property Name="CityId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CityName" Type="varchar" MaxLength="50" />
+    <Property Name="StateId" Type="int" />
+  </EntityType>
+  <EntityType Name="CompanyDetails">
+    <Key>
+      <PropertyRef Name="CompanyId" />
+    </Key>
+    <Property Name="CompanyId" Type="bigint" Nullable="false" />
+    <Property Name="CompanyName" Type="varchar" MaxLength="100" />
+    <Property Name="FromDate" Type="date" />
+    <Property Name="LastDate" Type="date" />
+    <Property Name="CTC" Type="money" />
+    <Property Name="RegistrationId" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="Country">
+    <Key>
+      <PropertyRef Name="CountryId" />
+    </Key>
+    <Property Name="CountryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CountryName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="CourseDetails">
+    <Key>
+      <PropertyRef Name="CourseId" />
+    </Key>
+    <Property Name="CourseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CName" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="EducationDetails">
+    <Key>
+      <PropertyRef Name="EducationId" />
+    </Key>
+    <Property Name="EducationId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EducationName" Type="varchar" MaxLength="100" />
+    <Property Name="PassoutYear" Type="varchar" MaxLength="50" />
+    <Property Name="University" Type="varchar" MaxLength="500" />
+    <Property Name="RegisterId" Type="uniqueidentifier" />
+    <Property Name="Percentage" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="JobFamilyDetails">
+    <Key>
+      <PropertyRef Name="JobFamilyId" />
+    </Key>
+    <Property Name="JobFamilyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TypeOfJob" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="State">
+    <Key>
+      <PropertyRef Name="StateId" />
+    </Key>
+    <Property Name="StateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StateName" Type="varchar" MaxLength="50" />
+    <Property Name="CountryId" Type="int" />
+  </EntityType>
+  <EntityType Name="Tbl_Registration">
+    <Key>
+      <PropertyRef Name="RegistrationId" />
+    </Key>
+    <Property Name="RegistrationId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Reg_Type" Type="varchar" MaxLength="50" />
+    <Property Name="FirstName" Type="varchar" MaxLength="50" />
+    <Property Name="LastName" Type="varchar" MaxLength="50" />
+    <Property Name="EmailId" Type="nvarchar" MaxLength="50" />
+    <Property Name="PhoneNumber" Type="varchar" MaxLength="50" />
+    <Property Name="UserName" Type="varchar" MaxLength="100" />
+    <Property Name="CountryId" Type="int" />
+    <Property Name="StateId" Type="int" />
+    <Property Name="CityId" Type="int" />
+    <Property Name="Password" Type="nvarchar" MaxLength="100" />
+    <Property Name="CreatedDate" Type="date" />
+    <Property Name="ActivationCode" Type="uniqueidentifier" />
+    <Property Name="EmailVerified" Type="bit" />
+    <Property Name="Address" Type="nvarchar(max)" />
+    <Property Name="Gender" Type="varchar" MaxLength="50" />
+    <Property Name="DateOfBirth" Type="varchar" MaxLength="50" />
+    <Property Name="PinCode" Type="varchar" MaxLength="50" />
+    <Property Name="Image" Type="varchar" MaxLength="50" />
+    <Property Name="Status" Type="bit" />
+  </EntityType>
+  <EntityType Name="UniversityDetails">
+    <Key>
+      <PropertyRef Name="UniversityId" />
+    </Key>
+    <Property Name="UniversityId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Uname" Type="nvarchar" MaxLength="100" />
+    <Property Name="Location" Type="nvarchar" MaxLength="50" />
+    <Property Name="Established" Type="nvarchar" MaxLength="50" />
+    <Property Name="Specilization" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_City_State">
+    <End Role="State" Type="Self.State" Multiplicity="0..1" />
+    <End Role="City" Type="Self.City" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="State">
+        <PropertyRef Name="StateId" />
+      </Principal>
+      <Dependent Role="City">
+        <PropertyRef Name="StateId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_State_Country">
+    <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
+    <End Role="State" Type="Self.State" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Country">
+        <PropertyRef Name="CountryId" />
+      </Principal>
+      <Dependent Role="State">
+        <PropertyRef Name="CountryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tbl_Registration_City">
+    <End Role="City" Type="Self.City" Multiplicity="0..1" />
+    <End Role="Tbl_Registration" Type="Self.Tbl_Registration" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="City">
+        <PropertyRef Name="CityId" />
+      </Principal>
+      <Dependent Role="Tbl_Registration">
+        <PropertyRef Name="CityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tbl_Registration_Country">
+    <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
+    <End Role="Tbl_Registration" Type="Self.Tbl_Registration" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Country">
+        <PropertyRef Name="CountryId" />
+      </Principal>
+      <Dependent Role="Tbl_Registration">
+        <PropertyRef Name="CountryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Tbl_Registration_State">
+    <End Role="State" Type="Self.State" Multiplicity="0..1" />
+    <End Role="Tbl_Registration" Type="Self.Tbl_Registration" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="State">
+        <PropertyRef Name="StateId" />
+      </Principal>
+      <Dependent Role="Tbl_Registration">
+        <PropertyRef Name="StateId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="JobPortalDbModelStoreContainer">
+    <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CompanyDetails" EntityType="Self.CompanyDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CourseDetails" EntityType="Self.CourseDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EducationDetails" EntityType="Self.EducationDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="JobFamilyDetails" EntityType="Self.JobFamilyDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="State" EntityType="Self.State" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tbl_Registration" EntityType="Self.Tbl_Registration" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UniversityDetails" EntityType="Self.UniversityDetails" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_City_State" Association="Self.FK_City_State">
+      <End Role="State" EntitySet="State" />
+      <End Role="City" EntitySet="City" />
+    </AssociationSet>
+    <AssociationSet Name="FK_State_Country" Association="Self.FK_State_Country">
+      <End Role="Country" EntitySet="Country" />
+      <End Role="State" EntitySet="State" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tbl_Registration_City" Association="Self.FK_Tbl_Registration_City">
+      <End Role="City" EntitySet="City" />
+      <End Role="Tbl_Registration" EntitySet="Tbl_Registration" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tbl_Registration_Country" Association="Self.FK_Tbl_Registration_Country">
+      <End Role="Country" EntitySet="Country" />
+      <End Role="Tbl_Registration" EntitySet="Tbl_Registration" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tbl_Registration_State" Association="Self.FK_Tbl_Registration_State">
+      <End Role="State" EntitySet="State" />
+      <End Role="Tbl_Registration" EntitySet="Tbl_Registration" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
